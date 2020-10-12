@@ -50,10 +50,6 @@ solver.addEditVariable(left, KiwiJs.Strength.strong);
 
 solver.addEditVariable(width, KiwiJs.Strength.strong);
 
-solver.suggestValue(left, 100);
-
-solver.suggestValue(width, 400);
-
 function v(prim) {
   return new KiwiJs.Expression(prim);
 }
@@ -62,9 +58,13 @@ function n(prim) {
   return new KiwiJs.Expression(prim);
 }
 
-var right = new KiwiJs.Variable();
+var centerX = new KiwiJs.Variable();
 
-solver.addConstraint(Kiwi$Bluefishv0.$eq(Kiwi$Bluefishv0.$plus(new KiwiJs.Expression(left), new KiwiJs.Expression(width)), new KiwiJs.Expression(right)));
+solver.addConstraint(Kiwi$Bluefishv0.$eq(Kiwi$Bluefishv0.$plus(new KiwiJs.Expression(left), Kiwi$Bluefishv0.$slash(new KiwiJs.Expression(width), 2)), new KiwiJs.Expression(centerX)));
+
+solver.suggestValue(left, 20);
+
+solver.suggestValue(width, 500);
 
 solver.updateVariables();
 
@@ -72,9 +72,14 @@ console.log("left", left.value());
 
 console.log("width", width.value());
 
-console.log("right", right.value());
+console.log("centerX", centerX.value());
 
-console.log("left - right + width", left.value() - right.value() + width.value());
+ReactDom.render(React.createElement("svg", undefined, React.createElement("rect", {
+              height: "10",
+              width: width.value().toString(),
+              x: left.value().toString(),
+              y: "5"
+            })), makeContainer("Kiwi Test"));
 
 exports.style = style;
 exports.makeContainer = makeContainer;
@@ -83,5 +88,5 @@ exports.left = left;
 exports.width = width;
 exports.v = v;
 exports.n = n;
-exports.right = right;
+exports.centerX = centerX;
 /* style Not a pure module */

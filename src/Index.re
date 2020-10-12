@@ -60,16 +60,17 @@ let left = Kiwi.mkVariable();
 let width = Kiwi.mkVariable();
 solver->Kiwi.addEditVariable(left, Kiwi.Strength.strong);
 solver->Kiwi.addEditVariable(width, Kiwi.Strength.strong);
-solver->Kiwi.suggestValue(left, 100.);
-solver->Kiwi.suggestValue(width, 400.);
 
 // Create and add a constraint
 let v = Kiwi.mkVarExpression;
 let n = Kiwi.mkNumExpression;
 
-let right = Kiwi.mkVariable();
+let centerX = Kiwi.mkVariable();
 // solver->Kiwi.addConstraint(Kiwi.(v(left) - v(right) + v(width) == n(0.)));
-solver->Kiwi.addConstraint(Kiwi.(v(left) + v(width) == v(right)));
+solver->Kiwi.addConstraint(Kiwi.(v(left) + v(width) / 2. == v(centerX)));
+
+solver->Kiwi.suggestValue(left, 20.);
+solver->Kiwi.suggestValue(width, 500.);
 
 // Solve the constraints
 solver->Kiwi.updateVariables();
@@ -78,5 +79,13 @@ type assertion('a) = (~actual: 'a, ~expected: 'a, ~message: string=?) => unit;
 // strictEqual(~actual=right->Kiwi.value(), ~expected=500.);
 Js.log2("left", left->Kiwi.value());
 Js.log2("width", width->Kiwi.value());
-Js.log2("right", right->Kiwi.value());
-Js.log2("left - right + width", left->Kiwi.value() -. right->Kiwi.value() +. width->Kiwi.value());
+Js.log2("centerX", centerX->Kiwi.value());
+// Js.log2("left - right + width", left->Kiwi.value() -. centerX->Kiwi.value() +.
+// width->Kiwi.value());
+
+ReactDOMRe.render(
+  <svg>
+    <rect x={left->Kiwi.value()->Js.Float.toString} y="5" width={width->Kiwi.value()->Js.Float.toString} height="10" />
+  </svg>,
+  makeContainer("Kiwi Test"),
+);

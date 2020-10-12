@@ -4,7 +4,10 @@ type solver;
 type variable;
 
 module Strength = {
+  [@bs.val] [@bs.module "kiwi.js"] [@bs.scope "Strength"] external required: float = "required";
   [@bs.val] [@bs.module "kiwi.js"] [@bs.scope "Strength"] external strong: float = "strong";
+  [@bs.val] [@bs.module "kiwi.js"] [@bs.scope "Strength"] external medium: float = "medium";
+  [@bs.val] [@bs.module "kiwi.js"] [@bs.scope "Strength"] external weak: float = "weak";
 };
 
 module Operator = {
@@ -41,7 +44,9 @@ let (/) = divide;
 // constraints
 type constraint_;
 
-[@bs.new] [@bs.module "kiwi.js"] external mkConstraint: (expression, Operator.t, expression) => constraint_ = "Constraint";
+[@bs.new] [@bs.module "kiwi.js"] external mkConstraint_: (expression, Operator.t, expression, float) => constraint_ = "Constraint";
+
+let mkConstraint = (~strength=Strength.required, e1, op, e2) => mkConstraint_(e1, op, e2, strength);
 
 let (<=) = (e1, e2) => mkConstraint(e1, Operator.le, e2);
 let (>=) = (e1, e2) => mkConstraint(e1, Operator.ge, e2);
