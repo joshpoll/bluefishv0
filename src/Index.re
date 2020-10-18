@@ -132,12 +132,21 @@ Js.log2("bCenter", bCenter->Kiwi.value());
 ReactDOMRe.render(
   <svg>
     <line x1="0." y1="20." x2="100." y2="20." stroke="black" />
-    <Draggable>
-      <circle cx={aCenter->Kiwi.value()->Js.Float.toString} cy="20" r="10" />
+    // <Draggable>
+    //   <circle cx={aCenter->Kiwi.value()->Js.Float.toString} cy="20" r="10" />
+    // </Draggable>
+    <Draggable position={x: aCenter->Kiwi.value(), y: 20.,}>
+      <circle cx="0" cy="0" r="10" fill="blue" />
     </Draggable>
-    <circle cx={bCenter->Kiwi.value()->Js.Float.toString} cy="20" r="10" />
-    <circle cx={cCenter->Kiwi.value()->Js.Float.toString} cy="20" r="10" />
-    <circle cx={dCenter->Kiwi.value()->Js.Float.toString} cy="20" r="10" />
+    <Draggable position={x: bCenter->Kiwi.value(), y: 20.,}>
+      <circle cx="0" cy="0" r="10" fill="blue" />
+    </Draggable>
+    <Draggable position={x: cCenter->Kiwi.value(), y: 20.,}>
+      <circle cx="0" cy="0" r="10" fill="blue" />
+    </Draggable>
+    <Draggable position={x: dCenter->Kiwi.value(), y: 20.,}>
+      <circle cx="0" cy="0" r="10" fill="blue" />
+    </Draggable>
   </svg>,
   makeContainer("Kiwi Circles"),
 );

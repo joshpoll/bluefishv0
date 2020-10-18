@@ -90,23 +90,49 @@ ReactDom.render(React.createElement("svg", undefined, React.createElement("line"
               y1: "20.",
               y2: "20."
             }), React.createElement(ReactDraggable.default, {
+              position: {
+                x: aCenter.value(),
+                y: 20
+              },
               children: React.createElement("circle", {
-                    cx: aCenter.value().toString(),
-                    cy: "20",
+                    cx: "0",
+                    cy: "0",
+                    fill: "blue",
                     r: "10"
                   })
-            }), React.createElement("circle", {
-              cx: bCenter.value().toString(),
-              cy: "20",
-              r: "10"
-            }), React.createElement("circle", {
-              cx: cCenter.value().toString(),
-              cy: "20",
-              r: "10"
-            }), React.createElement("circle", {
-              cx: dCenter.value().toString(),
-              cy: "20",
-              r: "10"
+            }), React.createElement(ReactDraggable.default, {
+              position: {
+                x: bCenter.value(),
+                y: 20
+              },
+              children: React.createElement("circle", {
+                    cx: "0",
+                    cy: "0",
+                    fill: "blue",
+                    r: "10"
+                  })
+            }), React.createElement(ReactDraggable.default, {
+              position: {
+                x: cCenter.value(),
+                y: 20
+              },
+              children: React.createElement("circle", {
+                    cx: "0",
+                    cy: "0",
+                    fill: "blue",
+                    r: "10"
+                  })
+            }), React.createElement(ReactDraggable.default, {
+              position: {
+                x: dCenter.value(),
+                y: 20
+              },
+              children: React.createElement("circle", {
+                    cx: "0",
+                    cy: "0",
+                    fill: "blue",
+                    r: "10"
+                  })
             })), makeContainer("Kiwi Circles"));
 
 exports.style = style;
