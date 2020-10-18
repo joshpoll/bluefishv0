@@ -56,6 +56,7 @@ let (>=) = (e1, e2) => mkConstraint(e1, Operator.ge, e2);
 let (==) = (e1, e2) => mkConstraint(e1, Operator.eq, e2);
 
 [@bs.send] external addConstraint: (solver, constraint_) => unit = "addConstraint";
+[@bs.send] external removeConstraint: (solver, constraint_) => unit = "removeConstraint";
 [@bs.send] external updateVariables: (solver, unit) => unit = "updateVariables";
 [@bs.send] external value: (variable, unit) => float = "value";
 
