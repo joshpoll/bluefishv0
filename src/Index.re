@@ -27,65 +27,124 @@ let makeContainer = text => {
   content;
 };
 
-// All 4 examples.
-ReactDOMRe.render(
-  <BlinkingGreeting>
-    {React.string("Hello!")}
-  </BlinkingGreeting>,
-  makeContainer("Blinking Greeting"),
-);
+// // All 4 examples.
+// ReactDOMRe.render(
+//   <BlinkingGreeting>
+//     {React.string("Hello!")}
+//   </BlinkingGreeting>,
+//   makeContainer("Blinking Greeting"),
+// );
 
-ReactDOMRe.render(
-  <ReducerFromReactJSDocs />,
-  makeContainer("Reducer From ReactJS Docs"),
-);
+// ReactDOMRe.render(
+//   <ReducerFromReactJSDocs />,
+//   makeContainer("Reducer From ReactJS Docs"),
+// );
 
-ReactDOMRe.render(
-  <FetchedDogPictures />,
-  makeContainer("Fetched Dog Pictures"),
-);
+// ReactDOMRe.render(
+//   <FetchedDogPictures />,
+//   makeContainer("Fetched Dog Pictures"),
+// );
 
-ReactDOMRe.render(
-  <ReasonUsingJSUsingReason />,
-  makeContainer("Reason Using JS Using Reason"),
-);
+// ReactDOMRe.render(
+//   <ReasonUsingJSUsingReason />,
+//   makeContainer("Reason Using JS Using Reason"),
+// );
 
 // ReasonML version of Kiwi example.
 
-// Create a solver
-let solver = Kiwi.mkSolver();
-
-// Create edit variables
-let left = Kiwi.mkVariable();
-let width = Kiwi.mkVariable();
-solver->Kiwi.addEditVariable(left, Kiwi.Strength.strong);
-solver->Kiwi.addEditVariable(width, Kiwi.Strength.strong);
-
-// Create and add a constraint
 let v = Kiwi.mkVarExpression;
 let n = Kiwi.mkNumExpression;
 
-let centerX = Kiwi.mkVariable();
-// solver->Kiwi.addConstraint(Kiwi.(v(left) - v(right) + v(width) == n(0.)));
-solver->Kiwi.addConstraint(Kiwi.(v(left) + v(width) / 2. == v(centerX)));
+// // Create a solver
+// let solver = Kiwi.mkSolver();
 
-solver->Kiwi.suggestValue(left, 20.);
-solver->Kiwi.suggestValue(width, 500.);
+// // Create edit variables
+// let left = Kiwi.mkVariable();
+// let width = Kiwi.mkVariable();
+// solver->Kiwi.addEditVariable(left, Kiwi.Strength.strong);
+// solver->Kiwi.addEditVariable(width, Kiwi.Strength.strong);
 
-// Solve the constraints
+// // Create and add a constraint
+
+// let centerX = Kiwi.mkVariable();
+// // solver->Kiwi.addConstraint(Kiwi.(v(left) - v(right) + v(width) == n(0.)));
+// solver->Kiwi.addConstraint(Kiwi.(v(left) + v(width) / 2. == v(centerX)));
+
+// solver->Kiwi.suggestValue(left, 20.);
+// solver->Kiwi.suggestValue(width, 500.);
+
+// // Solve the constraints
+// solver->Kiwi.updateVariables();
+// type assertion('a) = (~actual: 'a, ~expected: 'a, ~message: string=?) => unit;
+// // [@bs.module "assert"] external strictEqual: assertion('a) = "strictEqual";
+// // strictEqual(~actual=right->Kiwi.value(), ~expected=500.);
+// Js.log2("left", left->Kiwi.value());
+// Js.log2("width", width->Kiwi.value());
+// Js.log2("centerX", centerX->Kiwi.value());
+// // Js.log2("left - right + width", left->Kiwi.value() -. centerX->Kiwi.value() +.
+// // width->Kiwi.value());
+
+// ReactDOMRe.render(
+//   <svg>
+//     <rect x={left->Kiwi.value()->Js.Float.toString} y="5" width={width->Kiwi.value()->Js.Float.toString} height="10" />
+//   </svg>,
+//   makeContainer("Kiwi Test"),
+// );
+
+// equidistant circles test
+
+let solver = Kiwi.mkSolver();
+let aCenter = Kiwi.mkVariable();
+solver->Kiwi.addEditVariable(aCenter, Kiwi.Strength.strong);
+let bCenter = Kiwi.mkVariable();
+solver->Kiwi.addEditVariable(bCenter, Kiwi.Strength.strong);
+let cCenter = Kiwi.mkVariable();
+// solver->Kiwi.addEditVariable(cCenter, Kiwi.Strength.strong);
+let dCenter = Kiwi.mkVariable();
+// solver->Kiwi.addEditVariable(dCenter, Kiwi.Strength.strong);
+
+let gap = Kiwi.mkVariable();
+// solver->Kiwi.addEditVariable(gap, Kiwi.Strength.strong);
+
+solver->Kiwi.addConstraint(Kiwi.(v(bCenter) - v(aCenter) == v(gap)));
+solver->Kiwi.addConstraint(Kiwi.(v(cCenter) - v(bCenter) == v(gap)));
+solver->Kiwi.addConstraint(Kiwi.(v(dCenter) - v(cCenter) == v(gap)));
+
+solver->Kiwi.suggestValue(aCenter, 20.);
+solver->Kiwi.suggestValue(bCenter, 50.);
 solver->Kiwi.updateVariables();
-type assertion('a) = (~actual: 'a, ~expected: 'a, ~message: string=?) => unit;
-// [@bs.module "assert"] external strictEqual: assertion('a) = "strictEqual";
-// strictEqual(~actual=right->Kiwi.value(), ~expected=500.);
-Js.log2("left", left->Kiwi.value());
-Js.log2("width", width->Kiwi.value());
-Js.log2("centerX", centerX->Kiwi.value());
-// Js.log2("left - right + width", left->Kiwi.value() -. centerX->Kiwi.value() +.
-// width->Kiwi.value());
+solver->Kiwi.removeEditVariable(aCenter);
+solver->Kiwi.removeEditVariable(bCenter);
+
+// start editing gap with a weak stay on aCenter
+solver->Kiwi.addEditVariable(gap, Kiwi.Strength.strong);
+let aStay = Kiwi.mkConstraint(~strength=Kiwi.Strength.weak, v(aCenter), Kiwi.Operator.eq, n(aCenter->Kiwi.value()));
+solver->Kiwi.addConstraint(aStay);
+solver->Kiwi.suggestValue(gap, 40.);
+solver->Kiwi.updateVariables();
+solver->Kiwi.removeEditVariable(gap);
+
+Js.log2("aCenter", aCenter->Kiwi.value());
+Js.log2("bCenter", bCenter->Kiwi.value());
+// Js.log2("cCenter", cCenter->Kiwi.value());
+// Js.log2("dCenter", dCenter->Kiwi.value());
 
 ReactDOMRe.render(
   <svg>
-    <rect x={left->Kiwi.value()->Js.Float.toString} y="5" width={width->Kiwi.value()->Js.Float.toString} height="10" />
+    <line x1="0." y1="20." x2="100." y2="20." stroke="black" />
+    <Draggable>
+      <circle cx={aCenter->Kiwi.value()->Js.Float.toString} cy="20" r="10" />
+    </Draggable>
+    <circle cx={bCenter->Kiwi.value()->Js.Float.toString} cy="20" r="10" />
+    <circle cx={cCenter->Kiwi.value()->Js.Float.toString} cy="20" r="10" />
+    <circle cx={dCenter->Kiwi.value()->Js.Float.toString} cy="20" r="10" />
   </svg>,
-  makeContainer("Kiwi Test"),
+  makeContainer("Kiwi Circles"),
 );
+
+// ReactDOMRe.render(
+//   <Draggable>
+//     <div>{"drag me!"|>React.string}</div>
+//   </Draggable>,
+//   makeContainer("Drag Test"),
+// );

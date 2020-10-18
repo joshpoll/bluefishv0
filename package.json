@@ -16,9 +16,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "kiwi.js": "^1.1.2",
+    "kiwi": "npm:kiwi.js@^1.1.2",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
+    "react-draggable": "^4.4.3",
     "reason-react": ">=0.7.1"
   },
   "devDependencies": {

@@ -4,24 +4,25 @@ type solver;
 type variable;
 
 module Strength = {
-  [@bs.val] [@bs.module "kiwi.js"] [@bs.scope "Strength"] external required: float = "required";
-  [@bs.val] [@bs.module "kiwi.js"] [@bs.scope "Strength"] external strong: float = "strong";
-  [@bs.val] [@bs.module "kiwi.js"] [@bs.scope "Strength"] external medium: float = "medium";
-  [@bs.val] [@bs.module "kiwi.js"] [@bs.scope "Strength"] external weak: float = "weak";
+  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external required: float = "required";
+  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external strong: float = "strong";
+  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external medium: float = "medium";
+  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external weak: float = "weak";
 };
 
 module Operator = {
   type t;
 
-  [@bs.val] [@bs.module "kiwi.js"] [@bs.scope "Operator"] external le: t = "Le";
-  [@bs.val] [@bs.module "kiwi.js"] [@bs.scope "Operator"] external ge: t = "Ge";
-  [@bs.val] [@bs.module "kiwi.js"] [@bs.scope "Operator"] external eq: t = "Eq";
+  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Operator"] external le: t = "Le";
+  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Operator"] external ge: t = "Ge";
+  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Operator"] external eq: t = "Eq";
 };
 
-[@bs.new] [@bs.module "kiwi.js"] external mkSolver: unit => solver = "Solver";
-[@bs.new] [@bs.module "kiwi.js"] external mkVariable: unit => variable = "Variable";
+[@bs.new] [@bs.module "kiwi"] external mkSolver: unit => solver = "Solver";
+[@bs.new] [@bs.module "kiwi"] external mkVariable: unit => variable = "Variable";
 
 [@bs.send] external addEditVariable: (solver, variable, float) => unit = "addEditVariable";
+[@bs.send] external removeEditVariable: (solver, variable) => unit = "removeEditVariable";
 [@bs.send] external suggestValue: (solver, variable, float) => unit = "suggestValue";
 
 /* TODO: constraint/expr language using operator overloading */
@@ -30,8 +31,8 @@ module Operator = {
 // expressions
 type expression;
 
-[@bs.new] [@bs.module "kiwi.js"] external mkNumExpression: float => expression = "Expression";
-[@bs.new] [@bs.module "kiwi.js"] external mkVarExpression: variable => expression = "Expression";
+[@bs.new] [@bs.module "kiwi"] external mkNumExpression: float => expression = "Expression";
+[@bs.new] [@bs.module "kiwi"] external mkVarExpression: variable => expression = "Expression";
 [@bs.send] external plus: (expression, expression) => expression = "plus";
 [@bs.send] external minus: (expression, expression) => expression = "minus";
 [@bs.send] external multiply: (expression, float) => expression = "multiply";
@@ -44,7 +45,7 @@ let (/) = divide;
 // constraints
 type constraint_;
 
-[@bs.new] [@bs.module "kiwi.js"] external mkConstraint_: (expression, Operator.t, expression, float) => constraint_ = "Constraint";
+[@bs.new] [@bs.module "kiwi"] external mkConstraint_: (expression, Operator.t, expression, float) => constraint_ = "Constraint";
 
 let mkConstraint = (~strength=Strength.required, e1, op, e2) => mkConstraint_(e1, op, e2, strength);
 
