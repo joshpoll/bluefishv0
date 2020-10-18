@@ -69,7 +69,7 @@ solver.removeEditVariable(bCenter);
 
 solver.addEditVariable(gap, Kiwi.Strength.strong);
 
-var aStay = Kiwi$Bluefishv0.mkConstraint(Kiwi.Strength.weak, new Kiwi.Expression(aCenter), Kiwi.Operator.Eq, new Kiwi.Expression(aCenter.value()));
+var aStay = Kiwi$Bluefishv0.mkStay(aCenter);
 
 solver.addConstraint(aStay);
 

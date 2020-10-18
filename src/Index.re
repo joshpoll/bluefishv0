@@ -118,7 +118,7 @@ solver->Kiwi.removeEditVariable(bCenter);
 
 // start editing gap with a weak stay on aCenter
 solver->Kiwi.addEditVariable(gap, Kiwi.Strength.strong);
-let aStay = Kiwi.mkConstraint(~strength=Kiwi.Strength.weak, v(aCenter), Kiwi.Operator.eq, n(aCenter->Kiwi.value()));
+let aStay = Kiwi.mkStay(aCenter);
 solver->Kiwi.addConstraint(aStay);
 solver->Kiwi.suggestValue(gap, 40.);
 solver->Kiwi.updateVariables();

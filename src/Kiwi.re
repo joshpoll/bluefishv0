@@ -39,15 +39,17 @@ type expression;
 [@bs.send] external divide: (expression, float) => expression = "divide";
 let (+) = plus;
 let (-) = minus;
-let (*) = multiply;
+let ( * ) = multiply;
 let (/) = divide;
 
 // constraints
 type constraint_;
 
-[@bs.new] [@bs.module "kiwi"] external mkConstraint_: (expression, Operator.t, expression, float) => constraint_ = "Constraint";
+[@bs.new] [@bs.module "kiwi"]
+external mkConstraint_: (expression, Operator.t, expression, float) => constraint_ = "Constraint";
 
-let mkConstraint = (~strength=Strength.required, e1, op, e2) => mkConstraint_(e1, op, e2, strength);
+let mkConstraint = (~strength=Strength.required, e1, op, e2) =>
+  mkConstraint_(e1, op, e2, strength);
 
 let (<=) = (e1, e2) => mkConstraint(e1, Operator.le, e2);
 let (>=) = (e1, e2) => mkConstraint(e1, Operator.ge, e2);
@@ -56,3 +58,12 @@ let (==) = (e1, e2) => mkConstraint(e1, Operator.eq, e2);
 [@bs.send] external addConstraint: (solver, constraint_) => unit = "addConstraint";
 [@bs.send] external updateVariables: (solver, unit) => unit = "updateVariables";
 [@bs.send] external value: (variable, unit) => float = "value";
+
+// We expose a stay interface because Kiwi didn't! TODO: Does this match Cassowary's?
+let mkStay = (v: variable) =>
+  mkConstraint(
+    ~strength=Strength.weak,
+    mkVarExpression(v),
+    Operator.eq,
+    mkNumExpression(v->value()),
+  );
