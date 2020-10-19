@@ -59,6 +59,8 @@ let (==) = (e1, e2) => mkConstraint(e1, Operator.eq, e2);
 [@bs.send] external removeConstraint: (solver, constraint_) => unit = "removeConstraint";
 [@bs.send] external updateVariables: (solver, unit) => unit = "updateVariables";
 [@bs.send] external value: (variable, unit) => float = "value";
+[@bs.send] external setName: (variable, string) => unit = "setName";
+[@bs.send] external name: (variable, unit) => string = "name";
 
 // We expose a stay interface because Kiwi didn't! TODO: Does this match Cassowary's?
 let mkStay = (v: variable) =>

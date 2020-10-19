@@ -11,12 +11,13 @@ let initSolver = (aCenterX, aCenterY, bCenterX, bCenterY, cCenter, dCenter, gap,
   // solver->Kiwi.addEditVariable(gap, Kiwi.Strength.strong);
 
   // equal spacing circles
-  solver->Kiwi.addConstraint(Kiwi.(v(bCenterX) - v(aCenterX) == v(gap)));
+  let aConstraints = [|Kiwi.(v(bCenterX) - v(aCenterX) == v(gap)), Kiwi.(v(aCenterY) == v(guide))|];
+  solver->Kiwi.addConstraint(aConstraints[0]);
   solver->Kiwi.addConstraint(Kiwi.(v(cCenter) - v(bCenterX) == v(gap)));
   solver->Kiwi.addConstraint(Kiwi.(v(dCenter) - v(cCenter) == v(gap)));
 
   // equal y pos
-  solver->Kiwi.addConstraint(Kiwi.(v(aCenterY) == v(guide)));
+  solver->Kiwi.addConstraint(aConstraints[1]);
   solver->Kiwi.addConstraint(Kiwi.(v(bCenterY) == v(guide)));
 
   solver->Kiwi.suggestValue(aCenterX, 50.);
@@ -37,13 +38,15 @@ let initSolver = (aCenterX, aCenterY, bCenterX, bCenterY, cCenter, dCenter, gap,
   solver->Kiwi.removeEditVariable(guide);
   solver->Kiwi.removeConstraint(aStay);
 
+  aCenterX->Kiwi.setName("aCenterX");
+  Js.log2("aCenterX Name", aCenterX->Kiwi.name());
   Js.log2("aCenterX", aCenterX->Kiwi.value());
   Js.log2("bCenterX", bCenterX->Kiwi.value());
   Js.log2("cCenter", cCenter->Kiwi.value());
   Js.log2("dCenter", dCenter->Kiwi.value());
   Js.log2("gap", gap->Kiwi.value());
   Js.log2("guide", guide->Kiwi.value());
-  solver;
+  (solver, aConstraints);
 };
 
 [@react.component]
@@ -54,11 +57,36 @@ let make = () => {
   let (dCenter, _) = React.useState(() => Kiwi.mkVariable());
   let (gap, _) = React.useState(() => Kiwi.mkVariable());
   let (guide, _) = React.useState(() => Kiwi.mkVariable());
-  let (solver, _) =
+  let ((solver, aConstraints), _) =
     React.useState(() =>
       initSolver(aCenterX, aCenterY, bCenterX, bCenterY, cCenter, dCenter, gap, guide)
     );
   let (foo, setFoo) = React.useState(() => 0);
+
+  let onStart = (~e, ~data: Draggable.draggableData) => {
+    // TODO: for some reason setFoo triggers the cassowary variables to update...
+    setFoo(x => 1 - x);
+    solver->Kiwi.removeConstraint(aConstraints[0]);
+    solver->Kiwi.removeConstraint(aConstraints[1]);
+    Js.log2("onStart: aCenterX", aCenterX->Kiwi.value());
+    let gapStay = Kiwi.mkStay(gap);
+    solver->Kiwi.addConstraint(gapStay);
+    let guideStay = Kiwi.mkStay(guide);
+    solver->Kiwi.addConstraint(guideStay);
+    let bCenterXStay = Kiwi.mkStay(bCenterX);
+    solver->Kiwi.addConstraint(bCenterXStay);
+    solver->Kiwi.addEditVariable(aCenterX, Kiwi.Strength.strong);
+    solver->Kiwi.addEditVariable(aCenterY, Kiwi.Strength.strong);
+    solver->Kiwi.suggestValue(aCenterX, data.x);
+    solver->Kiwi.suggestValue(aCenterY, data.y);
+    solver->Kiwi.updateVariables();
+    solver->Kiwi.removeEditVariable(aCenterY);
+    solver->Kiwi.removeEditVariable(aCenterX);
+    solver->Kiwi.removeConstraint(bCenterXStay);
+    solver->Kiwi.removeConstraint(guideStay);
+    solver->Kiwi.removeConstraint(gapStay);
+    None;
+  };
 
   let onDrag = (~e, ~data: Draggable.draggableData) => {
     // TODO: for some reason setFoo triggers the cassowary variables to update...
@@ -118,13 +146,12 @@ let make = () => {
             strokeWidth="8"
           />
         </g>
-        <Draggable onDrag position={x: aCenterX->Kiwi.value(), y: aCenterY->Kiwi.value()}>
+        <Draggable /* onStart */ onDrag position={x: aCenterX->Kiwi.value(), y: aCenterY->Kiwi.value()}>
           <circle cx="0" cy="0" r="20" fill="lightblue" stroke="gray" strokeWidth="2" />
         </Draggable>
         <Draggable position={x: bCenterX->Kiwi.value(), y: bCenterY->Kiwi.value()}>
           <circle cx="0" cy="0" r="20" fill="lightblue" stroke="gray" strokeWidth="2" />
         </Draggable>
-
         <HorizontalGuide width="500" onDrag=onDragGuide yPos={guide->Kiwi.value()} />
       </svg>
   </div>;
