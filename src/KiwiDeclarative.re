@@ -15,6 +15,8 @@ type variableMap('a) = Belt.Map.t(variable, 'a, VariableComparable.identity);
 type variableOption =
   | Suggest(float, Strength.t)
   | Stay(Strength.t)
+  // TODO: get rid of derived variables entirely? only really needed if we want to specify the
+  // entire problem every time and/or if we need to keep track of all the variables
   | Derived;
 
 type solver = (Kiwi.solver, list(constraint_));
