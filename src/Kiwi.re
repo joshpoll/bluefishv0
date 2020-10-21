@@ -20,7 +20,7 @@ module Operator = {
 };
 
 [@bs.new] [@bs.module "kiwi"] external mkSolver: unit => solver = "Solver";
-[@bs.new] [@bs.module "kiwi"] external mkVariable: unit => variable = "Variable";
+[@bs.new] [@bs.module "kiwi"] external mkVariable_: unit => variable = "Variable";
 
 [@bs.send] external addEditVariable: (solver, variable, float) => unit = "addEditVariable";
 [@bs.send] external removeEditVariable: (solver, variable) => unit = "removeEditVariable";
@@ -55,6 +55,15 @@ let mkConstraint = (~strength=Strength.required, e1, op, e2) =>
 [@bs.send] external value: (variable, unit) => float = "value";
 [@bs.send] external setName: (variable, string) => unit = "setName";
 [@bs.send] external name: (variable, unit) => string = "name";
+
+let mkVariable = (~name=?, ()) => {
+  let v = mkVariable_();
+  switch (name) {
+  | None => ()
+  | Some(name) => v->setName(name)
+  };
+  v;
+};
 
 // We expose a stay interface because Kiwi didn't! TODO: Does this match Cassowary's?
 let mkStay = (~strength=Strength.weak, v: variable) =>

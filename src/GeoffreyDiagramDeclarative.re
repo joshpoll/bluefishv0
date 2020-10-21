@@ -7,33 +7,6 @@ let n = mkNumExpression;
 
 let initSolver = (aCenterX, aCenterY, bCenterX, bCenterY, cCenter, dCenter, gap, guide) => {
   let solver = mkSolver();
-  aCenterX->Kiwi.setName("aCenterX");
-  aCenterY->Kiwi.setName("aCenterY");
-  bCenterX->Kiwi.setName("bCenterX");
-  bCenterY->Kiwi.setName("bCenterY");
-  gap->Kiwi.setName("gap");
-  guide->Kiwi.setName("guide");
-  let variables =
-    Belt.Map.fromArray(
-      [|
-        (aCenterX, Stay(Strength.weak)),
-        (aCenterY, Derived),
-        (bCenterX, Suggest(80., Strength.strong)),
-        (bCenterY, Derived),
-        (gap, Derived),
-        (guide, Derived),
-      |],
-      ~id=(module VariableComparable),
-    );
-
-  let constraints = [
-    Kiwi.Ops.(v(bCenterX) - v(aCenterX) == v(gap)),
-    Kiwi.Ops.(v(aCenterY) == v(guide)),
-    Kiwi.Ops.(v(bCenterY) == v(guide)),
-  ];
-
-  let solver = solver->KiwiDeclarative.solve(~variables, ~constraints);
-
   let variables =
     Belt.Map.fromArray(
       [|
@@ -82,12 +55,12 @@ let initSolver = (aCenterX, aCenterY, bCenterX, bCenterY, cCenter, dCenter, gap,
 
 [@react.component]
 let make = () => {
-  let ((aCenterX, aCenterY), _) = React.useState(() => (mkVariable(), mkVariable()));
-  let ((bCenterX, bCenterY), _) = React.useState(() => (mkVariable(), mkVariable()));
-  let (cCenter, _) = React.useState(() => mkVariable());
-  let (dCenter, _) = React.useState(() => mkVariable());
-  let (gap, _) = React.useState(() => mkVariable());
-  let (guide, _) = React.useState(() => mkVariable());
+  let ((aCenterX, aCenterY), _) = React.useState(() => (mkVariable(~name="aCenterX", ()), mkVariable(~name="aCenterY", ())));
+  let ((bCenterX, bCenterY), _) = React.useState(() => (mkVariable(~name="bCenterX", ()), mkVariable(~name="bCenterY", ())));
+  let (cCenter, _) = React.useState(() => mkVariable(~name="cCenter", ()));
+  let (dCenter, _) = React.useState(() => mkVariable(~name="dCenter", ()));
+  let (gap, _) = React.useState(() => mkVariable(~name="gap", ()));
+  let (guide, _) = React.useState(() => mkVariable(~name="guide", ()));
   let (solver, setSolver) =
     React.useState(() =>
       initSolver(aCenterX, aCenterY, bCenterX, bCenterY, cCenter, dCenter, gap, guide)
