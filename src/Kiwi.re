@@ -9,8 +9,6 @@ module Strength = {
   [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external strong: t = "strong";
   [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external medium: t = "medium";
   [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external weak: t = "weak";
-  let none: t = 0.;
-  let isNone: t => bool = s => Js.Math.abs_float(s) < 0.001;
 };
 
 module Operator = {

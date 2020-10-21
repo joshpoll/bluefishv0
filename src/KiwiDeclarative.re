@@ -14,7 +14,8 @@ type variableMap('a) = Belt.Map.t(variable, 'a, VariableComparable.identity);
 
 type variableOption =
   | Suggest(float, Strength.t)
-  | Stay(Strength.t);
+  | Stay(Strength.t)
+  | Derived;
 
 type solver = (Kiwi.solver, list(constraint_));
 
@@ -63,11 +64,11 @@ let solve =
       solver->addEditVariable(var, strength);
       editVars := [var, ...editVars^];
       solver->suggestValue(var, value);
-    | Stay(strength) when Strength.isNone(strength) => ()
     | Stay(strength) =>
       let stayConstraint = mkStay(~strength, var);
       solver->addConstraint(stayConstraint);
       stays := [stayConstraint, ...stays^];
+    | Derived => ()
     }
   );
 

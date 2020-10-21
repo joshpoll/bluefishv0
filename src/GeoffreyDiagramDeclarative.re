@@ -17,11 +17,11 @@ let initSolver = (aCenterX, aCenterY, bCenterX, bCenterY, cCenter, dCenter, gap,
     Belt.Map.fromArray(
       [|
         (aCenterX, Stay(Strength.weak)),
-        (aCenterY, Stay(Strength.none)),
+        (aCenterY, Derived),
         (bCenterX, Suggest(80., Strength.strong)),
-        (bCenterY, Stay(Strength.none)),
-        (gap, Stay(Strength.none)),
-        (guide, Stay(Strength.none)),
+        (bCenterY, Derived),
+        (gap, Derived),
+        (guide, Derived),
       |],
       ~id=(module VariableComparable),
     );
@@ -38,9 +38,9 @@ let initSolver = (aCenterX, aCenterY, bCenterX, bCenterY, cCenter, dCenter, gap,
     Belt.Map.fromArray(
       [|
         (aCenterX, Suggest(50., Strength.strong)),
-        (aCenterY, Stay(Strength.none)),
-        (bCenterX, Stay(Strength.none)),
-        (bCenterY, Stay(Strength.none)),
+        (aCenterY, Derived),
+        (bCenterX, Derived),
+        (bCenterY, Derived),
         (gap, Suggest(100., Strength.strong)),
         (guide, Suggest(50., Strength.strong)),
       |],
@@ -145,9 +145,9 @@ let make = () => {
           [|
             // no stays on affected variables, weak stays on unaffected variables, strong suggests on edits
             (aCenterX, Stay(Strength.weak)),
-            (aCenterY, Stay(Strength.none)),
+            (aCenterY, Derived),
             (bCenterX, Stay(Strength.weak)),
-            (bCenterY, Stay(Strength.none)),
+            (bCenterY, Derived),
             (gap, Stay(Strength.weak)),
             (guide, Suggest(data.y, Strength.strong)),
           |],
