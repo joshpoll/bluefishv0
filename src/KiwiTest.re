@@ -16,7 +16,7 @@ let v = Kiwi.mkVarExpression;
 let n = Kiwi.mkNumExpression;
 
 let right = Kiwi.mkVariable();
-solver->Kiwi.addConstraint(Kiwi.(v(left) - v(right) + v(width) == n(0.)));
+solver->Kiwi.addConstraint(Kiwi.Ops.(v(left) - v(right) + v(width) == n(0.)));
 
 // Solve the constraints
 solver->Kiwi.updateVariables();

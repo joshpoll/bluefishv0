@@ -4,10 +4,13 @@ type solver;
 type variable;
 
 module Strength = {
-  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external required: float = "required";
-  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external strong: float = "strong";
-  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external medium: float = "medium";
-  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external weak: float = "weak";
+  type t = float;
+  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external required: t = "required";
+  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external strong: t = "strong";
+  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external medium: t = "medium";
+  [@bs.val] [@bs.module "kiwi"] [@bs.scope "Strength"] external weak: t = "weak";
+  let none: t = 0.;
+  let isNone: t => bool = s => Js.Math.abs_float(s) < 0.001;
 };
 
 module Operator = {
@@ -37,10 +40,6 @@ type expression;
 [@bs.send] external minus: (expression, expression) => expression = "minus";
 [@bs.send] external multiply: (expression, float) => expression = "multiply";
 [@bs.send] external divide: (expression, float) => expression = "divide";
-let (+) = plus;
-let (-) = minus;
-let ( * ) = multiply;
-let (/) = divide;
 
 // constraints
 type constraint_;
@@ -51,11 +50,8 @@ external mkConstraint_: (expression, Operator.t, expression, float) => constrain
 let mkConstraint = (~strength=Strength.required, e1, op, e2) =>
   mkConstraint_(e1, op, e2, strength);
 
-let (<=) = (e1, e2) => mkConstraint(e1, Operator.le, e2);
-let (>=) = (e1, e2) => mkConstraint(e1, Operator.ge, e2);
-let (==) = (e1, e2) => mkConstraint(e1, Operator.eq, e2);
-
 [@bs.send] external addConstraint: (solver, constraint_) => unit = "addConstraint";
+[@bs.send] external hasConstraint: (solver, constraint_) => bool = "hasConstraint";
 [@bs.send] external removeConstraint: (solver, constraint_) => unit = "removeConstraint";
 [@bs.send] external updateVariables: (solver, unit) => unit = "updateVariables";
 [@bs.send] external value: (variable, unit) => float = "value";
@@ -63,10 +59,18 @@ let (==) = (e1, e2) => mkConstraint(e1, Operator.eq, e2);
 [@bs.send] external name: (variable, unit) => string = "name";
 
 // We expose a stay interface because Kiwi didn't! TODO: Does this match Cassowary's?
-let mkStay = (v: variable) =>
-  mkConstraint(
-    ~strength=Strength.weak,
-    mkVarExpression(v),
-    Operator.eq,
-    mkNumExpression(v->value()),
-  );
+let mkStay = (~strength=Strength.weak, v: variable) =>
+  mkConstraint(~strength, mkVarExpression(v), Operator.eq, mkNumExpression(v->value()));
+
+module Ops = {
+  // expression combinators
+  let (+) = plus;
+  let (-) = minus;
+  let ( * ) = multiply;
+  let (/) = divide;
+
+  // constraint comparisons
+  let (<=) = (e1, e2) => mkConstraint(e1, Operator.le, e2);
+  let (>=) = (e1, e2) => mkConstraint(e1, Operator.ge, e2);
+  let (==) = (e1, e2) => mkConstraint(e1, Operator.eq, e2);
+};

@@ -72,6 +72,11 @@ ReactDOMRe.render(
   makeContainer("Kiwi Circles"),
 );
 
+ReactDOMRe.render(
+  <GeoffreyDiagramDeclarative />,
+  makeContainer("Kiwi Circles Declarative"),
+);
+
 // ReactDOMRe.render(
 //   <Draggable>
 //     <div>{"drag me!"|>React.string}</div>
