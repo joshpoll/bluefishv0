@@ -24,6 +24,7 @@ let make = () => {
   let (constraints, _) =
     React.useState(() =>
       [
+        /* TODO: there are probably some more (redundant) constraints here. find them!! */
         Kiwi.Ops.(v(bCenterX) - v(aCenterX) == v(gap)),
         Kiwi.Ops.(v(aCenterY) == v(guide)),
         Kiwi.Ops.(v(bCenterY) == v(guide)),
@@ -122,8 +123,39 @@ let make = () => {
             (bCenterY, Derived),
             (gap, Stay(Strength.weak)),
             (guide, Suggest(data.y, Strength.strong)),
-            (guide2, Derived),
-            (vertGap, Stay(Strength.weak)),
+            // (guide2, Derived),
+            // (vertGap, Stay(Strength.weak)),
+            (guide2, Stay(Strength.weak)),
+            (vertGap, Derived),
+            (vertGuide1, Stay(Strength.weak)),
+            (vertGuide2, Stay(Strength.weak)),
+          |],
+          ~id=(module VariableComparable),
+        );
+
+      solver->KiwiDeclarative.solve(~variables, ~constraints);
+    });
+    None;
+  };
+
+  let onDragGuide2 = (~e, ~data: Draggable.draggableData) => {
+    // TODO: for some reason setFoo triggers the cassowary variables to update...
+    setFoo(x => 1 - x);
+    setSolver(solver => {
+      let variables =
+        Belt.Map.fromArray(
+          [|
+            // no stays on affected variables, weak stays on unaffected variables, strong suggests on edits
+            (cCenterX, Stay(Strength.weak)),
+            (cCenterY, Derived),
+            (dCenterX, Stay(Strength.weak)),
+            (dCenterY, Derived),
+            (gap, Stay(Strength.weak)),
+            // (guide, Derived),
+            (guide, Stay(Strength.weak)),
+            (guide2, Suggest(data.y, Strength.strong)),
+            // (vertGap, Stay(Strength.weak)),
+            (vertGap, Derived),
             (vertGuide1, Stay(Strength.weak)),
             (vertGuide2, Stay(Strength.weak)),
           |],
@@ -172,6 +204,7 @@ let make = () => {
         <Draggable position={x: dCenterX->value(), y: dCenterY->value()}>
           <circle cx="0" cy="0" r="20" fill="lightblue" stroke="gray" strokeWidth="2" />
         </Draggable>
+        <HorizontalGuide width="500" onDrag=onDragGuide2 yPos={guide2->value()} />
       </svg>
   </div>;
   // <Draggable position={x: cCenter->value(), y: 50.}>
