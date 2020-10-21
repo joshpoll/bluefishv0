@@ -11,10 +11,33 @@ let make = () => {
     React.useState(() => (mkVariable(~name="aCenterX", ()), mkVariable(~name="aCenterY", ())));
   let ((bCenterX, bCenterY), _) =
     React.useState(() => (mkVariable(~name="bCenterX", ()), mkVariable(~name="bCenterY", ())));
-  let (cCenter, _) = React.useState(() => mkVariable(~name="cCenter", ()));
-  let (dCenter, _) = React.useState(() => mkVariable(~name="dCenter", ()));
+  let ((cCenterX, cCenterY), _) =
+    React.useState(() => (mkVariable(~name="cCenterX", ()), mkVariable(~name="cCenterY", ())));
+  let ((dCenterX, dCenterY), _) =
+    React.useState(() => (mkVariable(~name="dCenterX", ()), mkVariable(~name="dCenterY", ())));
   let (gap, _) = React.useState(() => mkVariable(~name="gap", ()));
+  let (vertGap, _) = React.useState(() => mkVariable(~name="vertGap", ()));
   let (guide, _) = React.useState(() => mkVariable(~name="guide", ()));
+  let (guide2, _) = React.useState(() => mkVariable(~name="guide2", ()));
+  let (vertGuide1, _) = React.useState(() => mkVariable(~name="vertGuide1", ()));
+  let (vertGuide2, _) = React.useState(() => mkVariable(~name="vertGuide2", ()));
+  let (constraints, _) =
+    React.useState(() =>
+      [
+        Kiwi.Ops.(v(bCenterX) - v(aCenterX) == v(gap)),
+        Kiwi.Ops.(v(aCenterY) == v(guide)),
+        Kiwi.Ops.(v(bCenterY) == v(guide)),
+        Kiwi.Ops.(v(dCenterX) - v(cCenterX) == v(gap)), /* TODO: different gap? */
+        Kiwi.Ops.(v(cCenterY) == v(guide2)),
+        Kiwi.Ops.(v(dCenterY) == v(guide2)),
+        Kiwi.Ops.(v(aCenterY) - v(cCenterY) == v(vertGap)),
+        Kiwi.Ops.(v(bCenterY) - v(dCenterY) == v(vertGap)),
+        Kiwi.Ops.(v(aCenterX) == v(vertGuide1)),
+        Kiwi.Ops.(v(cCenterX) == v(vertGuide1)),
+        Kiwi.Ops.(v(bCenterX) == v(vertGuide2)),
+        Kiwi.Ops.(v(dCenterX) == v(vertGuide2)),
+      ]
+    );
   let (solver, setSolver) =
     React.useState(() => {
       let solver = mkSolver();
@@ -25,17 +48,19 @@ let make = () => {
             (aCenterY, Derived),
             (bCenterX, Derived),
             (bCenterY, Derived),
+            (cCenterX, Derived),
+            (cCenterY, Derived),
+            (dCenterX, Derived),
+            (dCenterY, Derived),
             (gap, Suggest(100., Strength.strong)),
             (guide, Suggest(50., Strength.strong)),
+            (guide2, Suggest(100., Strength.strong)),
+            (vertGap, Derived),
+            (vertGuide1, Derived),
+            (vertGuide2, Derived),
           |],
           ~id=(module VariableComparable),
         );
-
-      let constraints = [
-        Kiwi.Ops.(v(bCenterX) - v(aCenterX) == v(gap)),
-        Kiwi.Ops.(v(aCenterY) == v(guide)),
-        Kiwi.Ops.(v(bCenterY) == v(guide)),
-      ];
 
       solver->KiwiDeclarative.solve(~variables, ~constraints);
     });
@@ -97,15 +122,13 @@ let make = () => {
             (bCenterY, Derived),
             (gap, Stay(Strength.weak)),
             (guide, Suggest(data.y, Strength.strong)),
+            (guide2, Derived),
+            (vertGap, Stay(Strength.weak)),
+            (vertGuide1, Stay(Strength.weak)),
+            (vertGuide2, Stay(Strength.weak)),
           |],
           ~id=(module VariableComparable),
         );
-
-      let constraints = [
-        Kiwi.Ops.(v(bCenterX) - v(aCenterX) == v(gap)),
-        Kiwi.Ops.(v(aCenterY) == v(guide)),
-        Kiwi.Ops.(v(bCenterY) == v(guide)),
-      ];
 
       solver->KiwiDeclarative.solve(~variables, ~constraints);
     });
@@ -115,8 +138,6 @@ let make = () => {
   <div>
     foo->React.int
     <svg width="500" height="500">
-      // TODO: dragging this line should move everything with y = 50
-
         <g>
           <line
             x1={(aCenterX->value() -. 30. -. 2.)->Js.Float.toString}
@@ -144,6 +165,13 @@ let make = () => {
           <circle cx="0" cy="0" r="20" fill="lightblue" stroke="gray" strokeWidth="2" />
         </Draggable>
         <HorizontalGuide width="500" onDrag=onDragGuide yPos={guide->value()} />
+
+        <Draggable position={x: cCenterX->value(), y: cCenterY->value()}>
+          <circle cx="0" cy="0" r="20" fill="lightblue" stroke="gray" strokeWidth="2" />
+        </Draggable>
+        <Draggable position={x: dCenterX->value(), y: dCenterY->value()}>
+          <circle cx="0" cy="0" r="20" fill="lightblue" stroke="gray" strokeWidth="2" />
+        </Draggable>
       </svg>
   </div>;
   // <Draggable position={x: cCenter->value(), y: 50.}>

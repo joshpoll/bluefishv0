@@ -14,6 +14,7 @@ type variableMap('a) = Belt.Map.t(variable, 'a, VariableComparable.identity);
 
 type variableOption =
   | Suggest(float, Strength.t)
+  // TODO: maybe stays should be inferred? a local change requires a suggest and derives.
   | Stay(Strength.t)
   // TODO: get rid of derived variables entirely? only really needed if we want to specify the
   // entire problem every time and/or if we need to keep track of all the variables
