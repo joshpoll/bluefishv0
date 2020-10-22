@@ -3,7 +3,6 @@
 var React = require("react");
 var ReactDom = require("react-dom");
 var ExampleStyles$Bluefishv0 = require("./ExampleStyles.bs.js");
-var GeoffreyDiagram$Bluefishv0 = require("./GeoffreyDiagram.bs.js");
 var GeoffreyDiagramDeclarative$Bluefishv0 = require("./GeoffreyDiagramDeclarative.bs.js");
 
 var style = document.createElement("style");
@@ -25,8 +24,6 @@ function makeContainer(text) {
   document.body.appendChild(container);
   return content;
 }
-
-ReactDom.render(React.createElement(GeoffreyDiagram$Bluefishv0.make, {}), makeContainer("Kiwi Circles"));
 
 ReactDom.render(React.createElement(GeoffreyDiagramDeclarative$Bluefishv0.make, {}), makeContainer("Kiwi Circles Declarative"));
 

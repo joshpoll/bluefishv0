@@ -52,25 +52,25 @@ let makeContainer = text => {
 
 // ReasonML version of Kiwi example.
 
-ReactDOMRe.render(
-  // <svg>
-  //   <line x1="0." y1="20." x2="100." y2="20." stroke="black" />
-  //   <Draggable onDrag={onDrag} position={x: aCenter->Kiwi.value(), y: 20.,}>
-  //     <circle cx="0" cy="0" r="10" fill="blue" />
-  //   </Draggable>
-  //   <Draggable position={x: bCenter->Kiwi.value(), y: 20.,}>
-  //     <circle cx="0" cy="0" r="10" fill="blue" />
-  //   </Draggable>
-  //   <Draggable position={x: cCenter->Kiwi.value(), y: 20.,}>
-  //     <circle cx="0" cy="0" r="10" fill="blue" />
-  //   </Draggable>
-  //   <Draggable position={x: dCenter->Kiwi.value(), y: 20.,}>
-  //     <circle cx="0" cy="0" r="10" fill="blue" />
-  //   </Draggable>
-  // </svg>,
-  <GeoffreyDiagram />,
-  makeContainer("Kiwi Circles"),
-);
+// ReactDOMRe.render(
+//   // <svg>
+//   //   <line x1="0." y1="20." x2="100." y2="20." stroke="black" />
+//   //   <Draggable onDrag={onDrag} position={x: aCenter->Kiwi.value(), y: 20.,}>
+//   //     <circle cx="0" cy="0" r="10" fill="blue" />
+//   //   </Draggable>
+//   //   <Draggable position={x: bCenter->Kiwi.value(), y: 20.,}>
+//   //     <circle cx="0" cy="0" r="10" fill="blue" />
+//   //   </Draggable>
+//   //   <Draggable position={x: cCenter->Kiwi.value(), y: 20.,}>
+//   //     <circle cx="0" cy="0" r="10" fill="blue" />
+//   //   </Draggable>
+//   //   <Draggable position={x: dCenter->Kiwi.value(), y: 20.,}>
+//   //     <circle cx="0" cy="0" r="10" fill="blue" />
+//   //   </Draggable>
+//   // </svg>,
+//   <GeoffreyDiagram />,
+//   makeContainer("Kiwi Circles"),
+// );
 
 ReactDOMRe.render(
   <GeoffreyDiagramDeclarative />,
