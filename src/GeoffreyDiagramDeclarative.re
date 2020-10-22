@@ -167,6 +167,60 @@ let make = () => {
     None;
   };
 
+  let onDragVertGuide1 = (~e, ~data: Draggable.draggableData) => {
+    // TODO: for some reason setFoo triggers the cassowary variables to update...
+    setFoo(x => 1 - x);
+    setSolver(solver => {
+      let variables =
+        Belt.Map.fromArray(
+          [|
+            // no stays on affected variables, weak stays on unaffected variables, strong suggests on edits
+            (cCenterX, Stay(Strength.weak)),
+            (cCenterY, Derived),
+            (dCenterX, Stay(Strength.weak)),
+            (dCenterY, Derived),
+            (gap, Derived),
+            (guide, Stay(Strength.weak)),
+            (guide2, Stay(Strength.weak)),
+            (vertGap, Derived),
+            (vertGuide1, Suggest(data.x, Strength.strong)),
+            (vertGuide2, Stay(Strength.weak)),
+          |],
+          ~id=(module VariableComparable),
+        );
+
+      solver->KiwiDeclarative.solve(~variables, ~constraints);
+    });
+    None;
+  };
+
+  let onDragVertGuide2 = (~e, ~data: Draggable.draggableData) => {
+    // TODO: for some reason setFoo triggers the cassowary variables to update...
+    setFoo(x => 1 - x);
+    setSolver(solver => {
+      let variables =
+        Belt.Map.fromArray(
+          [|
+            // no stays on affected variables, weak stays on unaffected variables, strong suggests on edits
+            (cCenterX, Stay(Strength.weak)),
+            (cCenterY, Derived),
+            (dCenterX, Stay(Strength.weak)),
+            (dCenterY, Derived),
+            (gap, Derived),
+            (guide, Stay(Strength.weak)),
+            (guide2, Stay(Strength.weak)),
+            (vertGap, Derived),
+            (vertGuide1, Stay(Strength.weak)),
+            (vertGuide2, Suggest(data.x, Strength.strong)),
+          |],
+          ~id=(module VariableComparable),
+        );
+
+      solver->KiwiDeclarative.solve(~variables, ~constraints);
+    });
+    None;
+  };
+
   <div>
     foo->React.int
     <svg width="500" height="500">
@@ -205,6 +259,8 @@ let make = () => {
           <circle cx="0" cy="0" r="20" fill="lightblue" stroke="gray" strokeWidth="2" />
         </Draggable>
         <HorizontalGuide width="500" onDrag=onDragGuide2 yPos={guide2->value()} />
+        <VerticalGuide height="500" onDrag=onDragVertGuide1 xPos={vertGuide1->value()} />
+        <VerticalGuide height="500" onDrag=onDragVertGuide2 xPos={vertGuide2->value()} />
       </svg>
   </div>;
   // <Draggable position={x: cCenter->value(), y: 50.}>
