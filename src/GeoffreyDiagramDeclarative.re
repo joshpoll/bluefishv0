@@ -224,26 +224,27 @@ let make = () => {
   <div>
     foo->React.int
     <svg width="500" height="500">
-        <g>
-          <line
-            x1={(aCenterX->value() -. 30. -. 2.)->Js.Float.toString}
-            y1={guide->value()->Js.Float.toString}
-            x2={(bCenterX->value() +. 30. +. 2.)->Js.Float.toString}
-            y2={guide->value()->Js.Float.toString}
-            stroke="gray"
-            strokeWidth="11"
-          />
-          <line
-            x1={(aCenterX->value() -. 30.)->Js.Float.toString}
-            y1={guide->value()->Js.Float.toString}
-            x2={(bCenterX->value() +. 30.)->Js.Float.toString}
-            y2={guide->value()->Js.Float.toString}
-            stroke="lightblue"
-            strokeWidth="8"
-          />
-        </g>
-        /* onStart */
-        /* onDrag */
+      // <g>
+      //   <line
+      //     x1={(aCenterX->value() -. 30. -. 2.)->Js.Float.toString}
+      //     y1={guide->value()->Js.Float.toString}
+      //     x2={(bCenterX->value() +. 30. +. 2.)->Js.Float.toString}
+      //     y2={guide->value()->Js.Float.toString}
+      //     stroke="gray"
+      //     strokeWidth="11"
+      //   />
+      //   <line
+      //     x1={(aCenterX->value() -. 30.)->Js.Float.toString}
+      //     y1={guide->value()->Js.Float.toString}
+      //     x2={(bCenterX->value() +. 30.)->Js.Float.toString}
+      //     y2={guide->value()->Js.Float.toString}
+      //     stroke="lightblue"
+      //     strokeWidth="8"
+      //   />
+      // </g>
+      /* onStart */
+      /* onDrag */
+
         <Draggable position={x: aCenterX->value(), y: aCenterY->value()}>
           <circle cx="0" cy="0" r="20" fill="lightblue" stroke="gray" strokeWidth="2" />
         </Draggable>
@@ -251,7 +252,6 @@ let make = () => {
           <circle cx="0" cy="0" r="20" fill="lightblue" stroke="gray" strokeWidth="2" />
         </Draggable>
         <HorizontalGuide width="500" onDrag=onDragGuide yPos={guide->value()} />
-
         <Draggable position={x: cCenterX->value(), y: cCenterY->value()}>
           <circle cx="0" cy="0" r="20" fill="lightblue" stroke="gray" strokeWidth="2" />
         </Draggable>
