@@ -261,6 +261,18 @@ let make = () => {
         <HorizontalGuide width="500" onDrag=onDragGuide2 yPos={guide2->value()} />
         <VerticalGuide height="500" onDrag=onDragVertGuide1 xPos={vertGuide1->value()} />
         <VerticalGuide height="500" onDrag=onDragVertGuide2 xPos={vertGuide2->value()} />
+        <HorizontalGap
+          onDrag=onDragVertGuide2
+          width={(gap->value() -. 50.)->Js.Float.toString}
+          xPos={aCenterX->value() +. 25.}
+          yPos={guide->value()}
+        />
+        <HorizontalGap
+          onDrag=onDragVertGuide2
+          width={(gap->value() -. 50.)->Js.Float.toString}
+          xPos={cCenterX->value() +. 25.}
+          yPos={guide2->value()}
+        />
       </svg>
   </div>;
   // <Draggable position={x: cCenter->value(), y: 50.}>

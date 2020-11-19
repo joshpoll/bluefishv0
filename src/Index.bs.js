@@ -2,6 +2,8 @@
 
 var React = require("react");
 var ReactDom = require("react-dom");
+var Text$Bluefishv0 = require("./Primitives/Constraints/Text.bs.js");
+var TextLayout$Bluefishv0 = require("./TextDiagram/TextLayout.bs.js");
 var ExampleStyles$Bluefishv0 = require("./ExampleStyles.bs.js");
 var GeoffreyDiagramDeclarative$Bluefishv0 = require("./GeoffreyDiagramDeclarative.bs.js");
 
@@ -24,6 +26,14 @@ function makeContainer(text) {
   document.body.appendChild(container);
   return content;
 }
+
+ReactDom.render(React.createElement(TextLayout$Bluefishv0.make, {}), makeContainer("Text Layout"));
+
+ReactDom.render(React.createElement("div", undefined, React.createElement(Text$Bluefishv0.make, {
+              text: "foo"
+            }), React.createElement(Text$Bluefishv0.make, {
+              text: "this is a very long string"
+            })), makeContainer("Text Test"));
 
 ReactDom.render(React.createElement(GeoffreyDiagramDeclarative$Bluefishv0.make, {}), makeContainer("Kiwi Circles Declarative"));
 

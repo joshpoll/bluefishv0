@@ -72,14 +72,17 @@ let makeContainer = text => {
 //   makeContainer("Kiwi Circles"),
 // );
 
+ReactDOMRe.render(<TextLayout />, makeContainer("Text Layout")) /* )*/;
+
 ReactDOMRe.render(
-  <GeoffreyDiagramDeclarative />,
-  makeContainer("Kiwi Circles Declarative"),
+  <div> <Text text="foo" /> <Text text="this is a very long string" /> </div>,
+  makeContainer("Text Test"),
 );
+
+ReactDOMRe.render(<GeoffreyDiagramDeclarative />, makeContainer("Kiwi Circles Declarative")) /* )*/;
 
 // ReactDOMRe.render(
 //   <Draggable>
 //     <div>{"drag me!"|>React.string}</div>
 //   </Draggable>,
 //   makeContainer("Drag Test"),
-// );

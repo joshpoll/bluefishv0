@@ -1,0 +1,88 @@
+[
+  {
+    "course info": {
+      "course name": "Software Studio",
+      "instructors": [
+        {
+          "instructor": "Jackson"
+        },
+        {
+          "instructor": "Satyanarayan"
+        }
+      ]
+    },
+    "course #": "6.170"
+  },
+  {
+    "course info": {
+      "course name": "Engineering Interactive Technologies",
+      "instructors": [
+        {
+          "instructor": "Mueller"
+        }
+      ]
+    },
+    "course #": "6.810"
+  },
+  {
+    "course info": {
+      "course name": "Principles and Practice of Assistive Technology",
+      "instructors": [
+        {
+          "instructor": "Miller"
+        },
+        {
+          "instructor": "Greenberg"
+        },
+        {
+          "instructor": "Keane"
+        }
+      ]
+    },
+    "course #": "6.811"
+  },
+  {
+    "course info": {
+      "course name": "Intelligent Multimodal User Interfaces",
+      "instructors": [
+        {
+          "instructor": "Davis"
+        }
+      ]
+    },
+    "course #": "6.835"
+  },
+  {
+    "course info": {
+      "course name": "Interactive Data Visualization",
+      "instructors": [
+        {
+          "instructor": "Satyanarayan"
+        }
+      ]
+    },
+    "course #": "6.894"
+  },
+  {
+    "course info": {
+      "course name": "Advanced Identity Representation",
+      "instructors": [
+        {
+          "instructor": "Harrell"
+        }
+      ]
+    },
+    "course #": "CMS.628.828"
+  },
+  {
+    "course info": {
+      "course name": "Imagination, Computation, and Expression Studio",
+      "instructors": [
+        {
+          "instructor": "Harrell"
+        }
+      ]
+    },
+    "course #": "CMS.627/827"
+  }
+]
