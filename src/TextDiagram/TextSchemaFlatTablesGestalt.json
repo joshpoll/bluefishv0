@@ -1,6 +1,6 @@
 {
   "course info": {
-    "type": "relation",
+    "type": "list",
     "fields": {
       "course name": {
         "type": "string",
@@ -11,7 +11,7 @@
         "encoding": "light 18px sans-serif"
       },
       "instructors": {
-        "type": "relation",
+        "type": "list",
         "fields": {
           "instructor": {
             "type": "string",
