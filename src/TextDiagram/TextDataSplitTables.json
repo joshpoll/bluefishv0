@@ -1,0 +1,99 @@
+{
+  "course # table": [
+    {
+      "course name": "Software Studio",
+      "course #": "6.170"
+    },
+    {
+      "course name": "Engineering Interactive Technologies",
+      "course #": "6.810"
+    },
+    {
+      "course name": "Principles and Practice of Assistive Technology",
+      "course #": "6.811"
+    },
+    {
+      "course name": "Intelligent Multimodal User Interfaces",
+      "course #": "6.835"
+    },
+    {
+      "course name": "Interactive Data Visualization",
+      "course #": "6.894"
+    },
+    {
+      "course name": "Advanced Identity Representation",
+      "course #": "CMS.628.828"
+    },
+    {
+      "course name": "Imagination, Computation, and Expression Studio",
+      "course #": "CMS.627/827"
+    }
+  ],
+  "course instructor table": [
+    {
+      "course name": "Software Studio",
+      "instructors": [
+        {
+          "instructor": "Jackson"
+        },
+        {
+          "instructor": "Satyanarayan"
+        }
+      ]
+    },
+    {
+      "course name": "Engineering Interactive Technologies",
+      "instructors": [
+        {
+          "instructor": "Mueller"
+        }
+      ]
+    },
+    {
+      "course name": "Principles and Practice of Assistive Technology",
+      "instructors": [
+        {
+          "instructor": "Miller"
+        },
+        {
+          "instructor": "Greenberg"
+        },
+        {
+          "instructor": "Keane"
+        }
+      ]
+    },
+    {
+      "course name": "Intelligent Multimodal User Interfaces",
+      "instructors": [
+        {
+          "instructor": "Davis"
+        }
+      ]
+    },
+    {
+      "course name": "Interactive Data Visualization",
+      "instructors": [
+        {
+          "instructor": "Satyanarayan"
+        }
+      ]
+    },
+    {
+      "course name": "Advanced Identity Representation",
+      "instructors": [
+        {
+          "instructor": "Harrell"
+        }
+      ]
+    },
+    {
+      "course name": "Imagination, Computation, and Expression Studio",
+      "instructors": [
+        {
+          "instructor": "Harrell"
+        }
+      ]
+    }
+  ]
+}

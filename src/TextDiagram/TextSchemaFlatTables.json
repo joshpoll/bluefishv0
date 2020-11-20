@@ -1,0 +1,9 @@
+{
+  "course info": {
+    "course name": "string",
+    "instructors": {
+      "instructor": "string"
+    },
+    "course #": "string"
+  }
+}

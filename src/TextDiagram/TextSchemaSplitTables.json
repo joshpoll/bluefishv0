@@ -1,0 +1,12 @@
+{
+  "course # table": {
+    "course name": "string",
+    "course #": "string"
+  },
+  "course instructor table": {
+    "course name": "string",
+    "instructors": {
+      "instructor": "string"
+    }
+  }
+}

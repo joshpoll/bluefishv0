@@ -1,0 +1,36 @@
+{
+  "course info": {
+    "type": "relation",
+    "fields": {
+      "course name": {
+        "type": "string",
+        "encoding": "bold 18px sans-serif"
+      },
+      "course #": {
+        "type": "string",
+        "encoding": "light 18px sans-serif"
+      },
+      "instructors": {
+        "type": "relation",
+        "fields": {
+          "instructor": {
+            "type": "string",
+            "encoding": "italic 16px serif"
+          }
+        },
+        "row encoding": [],
+        "column encoding": [
+          "join with & and ,"
+        ]
+      }
+    },
+    "row encoding": [
+      "course # =_= course name           (=_= =-= =^=)",
+      "course name |// instructors        (|// /|/ //|)"
+    ],
+    "column encoding": [
+      "//",
+      "|//: course name"
+    ]
+  }
+}

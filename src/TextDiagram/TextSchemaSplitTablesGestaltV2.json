@@ -1,0 +1,47 @@
+{
+  "relations": {
+    "course # table": {
+      "fields": [
+        "course name",
+        "course #"
+      ],
+      "encoding": {
+        "horizontal spacing": true,
+        "baseline alignment": true
+      }
+    },
+    "course instructor table": {
+      "fields": [
+        "course name",
+        {
+          "name": "instructors",
+          "fields": [
+            "instructor"
+          ],
+          "encoding": {
+            "join with & and ,": true
+          }
+        }
+      ],
+      "encoding": {
+        "vertical spacing": true,
+        "left-aligned": true
+      }
+    },
+    "encoding": {
+      "join": true,
+      "vertical spacing": true,
+      "left-aligned": "course name"
+    }
+  },
+  "field -> type": {
+    "course name": "h1",
+    "course #": "h2",
+    "instructor": "h3"
+  },
+  "type -> viz": {
+    "h1": "bold 18px sans-serif",
+    "h2": "light 18px sans-serif",
+    "h3": "italic 16px serif"
+  }
+}

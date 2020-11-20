@@ -13,10 +13,16 @@ let mkPoint = (~name, ()) => (
 [@react.component]
 let make = () => {
   let (courseNumGuide, _) = React.useState(() => mkVariable(~name="courseNumGuide", ()));
+  let (courseNumGap, _) = React.useState(() => mkVariable(~name="courseNumGap", ()));
+  let (courseNameGuide, _) = React.useState(() => mkVariable(~name="courseNameGuide", ()));
 
   let (courseNum1, _) = React.useState(() => Box.mk(~name="courseNum1"));
   let (courseNum2, _) = React.useState(() => Box.mk(~name="courseNum2"));
   let (courseNum3, _) = React.useState(() => Box.mk(~name="courseNum3"));
+
+  let (courseName1, _) = React.useState(() => Box.mk(~name="courseName1"));
+  let (courseName2, _) = React.useState(() => Box.mk(~name="courseName2"));
+  let (courseName3, _) = React.useState(() => Box.mk(~name="courseName3"));
 
   // let ((courseNum1ULX, courseNum1ULY), _) =
   //   React.useState(() => mkPoint(~name="courseNum1UL", ()));
@@ -44,10 +50,16 @@ let make = () => {
       courseNum1->Box.constraints
       @ courseNum2->Box.constraints
       @ courseNum3->Box.constraints
+      @ courseName1->Box.constraints
+      @ courseName2->Box.constraints
+      @ courseName3->Box.constraints
       @ [
-        Kiwi.Ops.(v(courseNum1->Box.x2) == v(courseNumGuide)),
-        Kiwi.Ops.(v(courseNum2->Box.x2) == v(courseNumGuide)),
-        Kiwi.Ops.(v(courseNum3->Box.x2) == v(courseNumGuide)),
+        Kiwi.Ops.(v(courseName1->Box.x1) - v(courseNum1->Box.x2) == v(courseNumGap)),
+        Kiwi.Ops.(v(courseName2->Box.x1) - v(courseNum2->Box.x2) == v(courseNumGap)),
+        Kiwi.Ops.(v(courseName3->Box.x1) - v(courseNum3->Box.x2) == v(courseNumGap)),
+        Kiwi.Ops.(v(courseName1->Box.x1) == v(courseNameGuide)),
+        Kiwi.Ops.(v(courseName2->Box.x1) == v(courseNameGuide)),
+        Kiwi.Ops.(v(courseName3->Box.x1) == v(courseNameGuide)),
       ]
     );
   let (solver, setSolver) =
@@ -56,7 +68,9 @@ let make = () => {
       let variables =
         Belt.Map.fromArray(
           [|
-            (courseNumGuide, Suggest(40.5, Strength.strong)),
+            // (courseNumGuide, Suggest(40.5, Strength.strong)),
+            (courseNameGuide, Suggest(50., Strength.strong)),
+            (courseNumGap, Suggest(9.5, Strength.strong)),
             (courseNum1->Box.x1, Derived),
             (courseNum1->Box.y1, Derived),
             (courseNum1->Box.x2, Derived),
@@ -75,6 +89,24 @@ let make = () => {
             (courseNum3->Box.y2, Suggest(20.81, Strength.strong)),
             (courseNum3->Box.width, Suggest(39.86, Strength.strong)),
             (courseNum3->Box.height, Suggest(20.81, Strength.strong)),
+            (courseName1->Box.x1, Suggest(50., Strength.strong)),
+            (courseName1->Box.y1, Suggest(0., Strength.strong)),
+            (courseName1->Box.x2, Derived),
+            (courseName1->Box.y2, Derived),
+            (courseName1->Box.width, Suggest(137.02, Strength.strong)),
+            (courseName1->Box.height, Suggest(20.81, Strength.strong)),
+            (courseName2->Box.x1, Suggest(50., Strength.strong)),
+            (courseName2->Box.y1, Suggest(0., Strength.strong)),
+            (courseName2->Box.x2, Derived),
+            (courseName2->Box.y2, Derived),
+            (courseName2->Box.width, Suggest(318.75, Strength.strong)),
+            (courseName2->Box.height, Suggest(20.81, Strength.strong)),
+            (courseName3->Box.x1, Suggest(50., Strength.strong)),
+            (courseName3->Box.y1, Suggest(0., Strength.strong)),
+            (courseName3->Box.x2, Derived),
+            (courseName3->Box.y2, Derived),
+            (courseName3->Box.width, Suggest(408.81, Strength.strong)),
+            (courseName3->Box.height, Suggest(20.81, Strength.strong)),
           |],
           ~id=(module VariableComparable),
         );
@@ -260,11 +292,11 @@ let make = () => {
       // </g>
       /* onStart */
       /* onDrag */
+      // <VerticalGuide height="500" onDrag=onDragVertGuide1 xPos=40. />
 
-        <VerticalGuide height="500" onDrag=onDragVertGuide1 xPos=40. />
         <VerticalGuide height="500" onDrag=onDragVertGuide1 xPos=50. />
         <HorizontalGuide width="500" onDrag=onDragVertGuide1 yPos=50. />
-        // <HorizontalGap width="10" onDrag=onDragVertGuide1 xPos=40. yPos=45. />
+        <HorizontalGap width={courseNumGap->value()->Js.Float.toString} onDrag=onDragVertGuide1 xPos={courseNum1->Box.x2->value()} yPos=45. />
         <VerticalGap height="10" onDrag=onDragVertGuide1 xPos=150. yPos=50. />
         <VerticalGap height="12" onDrag=onDragVertGuide1 xPos=100. yPos=75. />
         <g transform="translate(0, 50)">
@@ -274,14 +306,15 @@ let make = () => {
             style={ReactDOM.Style.make(~font="18px light sans-serif", ())}>
             "6.170"->React.string
           </text>
-          <g transform="translate(50, 0)">
-            <text x="0" y="0" style={ReactDOM.Style.make(~font="bold 18px sans-serif", ())}>
-              "Software Studio"->React.string
-            </text>
-            <text x="0" y="20" style={ReactDOM.Style.make(~font="italic 16px serif", ())}>
-              "Jackson & Satyanarayan"->React.string
-            </text>
-          </g>
+          <text
+            x={courseName1->Box.x1->value()->Js.Float.toString}
+            y={courseName1->Box.y1->value()->Js.Float.toString}
+            style={ReactDOM.Style.make(~font="bold 18px sans-serif", ())}>
+            "Software Studio"->React.string
+          </text>
+          <text x="50" y="20" style={ReactDOM.Style.make(~font="italic 16px serif", ())}>
+            "Jackson & Satyanarayan"->React.string
+          </text>
         </g>
         <g transform="translate(0, 100)">
           <text
@@ -290,14 +323,15 @@ let make = () => {
             style={ReactDOM.Style.make(~font="18px light sans-serif", ())}>
             "6.810"->React.string
           </text>
-          <g transform="translate(50, 0)">
-            <text x="0" y="0" style={ReactDOM.Style.make(~font="bold 18px sans-serif", ())}>
-              "Engineering Interactive Technologies"->React.string
-            </text>
-            <text x="0" y="20" style={ReactDOM.Style.make(~font="italic 16px serif", ())}>
-              "Mueller"->React.string
-            </text>
-          </g>
+          <text
+            x={courseName2->Box.x1->value()->Js.Float.toString}
+            y={courseName2->Box.y1->value()->Js.Float.toString}
+            style={ReactDOM.Style.make(~font="bold 18px sans-serif", ())}>
+            "Engineering Interactive Technologies"->React.string
+          </text>
+          <text x="50" y="20" style={ReactDOM.Style.make(~font="italic 16px serif", ())}>
+            "Mueller"->React.string
+          </text>
         </g>
         <g transform="translate(0, 150)">
           <text
@@ -306,14 +340,15 @@ let make = () => {
             style={ReactDOM.Style.make(~font="18px light sans-serif", ())}>
             "6.811"->React.string
           </text>
-          <g transform="translate(50, 0)">
-            <text x="0" y="0" style={ReactDOM.Style.make(~font="bold 18px sans-serif", ())}>
-              "Principles and Practice of Assistive Technology"->React.string
-            </text>
-            <text x="0" y="20" style={ReactDOM.Style.make(~font="italic 16px serif", ())}>
-              "Miller, Greenberg, Keane"->React.string
-            </text>
-          </g>
+          <text
+            x={courseName3->Box.x1->value()->Js.Float.toString}
+            y={courseName3->Box.y1->value()->Js.Float.toString}
+            style={ReactDOM.Style.make(~font="bold 18px sans-serif", ())}>
+            "Principles and Practice of Assistive Technology"->React.string
+          </text>
+          <text x="50" y="20" style={ReactDOM.Style.make(~font="italic 16px serif", ())}>
+            "Miller, Greenberg, Keane"->React.string
+          </text>
         </g>
       </svg>
   </div>;

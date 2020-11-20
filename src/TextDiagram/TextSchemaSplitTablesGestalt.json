@@ -1,0 +1,35 @@
+{
+  "relations": {
+    "course # table": {
+      "course name": "h1",
+      "course #": "h2",
+      "encoding": {
+        "horizontal spacing": true,
+        "baseline alignment": true
+      }
+    },
+    "course instructor table": {
+      "course name": "h1",
+      "instructors": {
+        "instructor": "h3",
+        "encoding": {
+          "join with & and ,": true
+        }
+      },
+      "encoding": {
+        "vertical spacing": true,
+        "left-aligned": true
+      }
+    },
+    "encoding": {
+      "join": true,
+      "vertical spacing": true,
+      "left-aligned": "course name"
+    }
+  },
+  "header encodings": {
+    "h1": "bold 18px sans-serif",
+    "h2": "light 18px sans-serif",
+    "h3": "italic 16px serif"
+  }
+}
