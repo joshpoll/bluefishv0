@@ -72,6 +72,8 @@ let makeContainer = text => {
 //   makeContainer("Kiwi Circles"),
 // );
 
+ReactDOMRe.render(<BarChart />, makeContainer("Bar Chart"));
+
 ReactDOMRe.render(<TextLayout />, makeContainer("Text Layout")) /* )*/;
 
 ReactDOMRe.render(

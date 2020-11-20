@@ -3,6 +3,7 @@
 var React = require("react");
 var ReactDom = require("react-dom");
 var Text$Bluefishv0 = require("./Primitives/Constraints/Text.bs.js");
+var BarChart$Bluefishv0 = require("./BarChart/BarChart.bs.js");
 var TextLayout$Bluefishv0 = require("./TextDiagram/TextLayout.bs.js");
 var ExampleStyles$Bluefishv0 = require("./ExampleStyles.bs.js");
 var GeoffreyDiagramDeclarative$Bluefishv0 = require("./GeoffreyDiagramDeclarative.bs.js");
@@ -26,6 +27,8 @@ function makeContainer(text) {
   document.body.appendChild(container);
   return content;
 }
+
+ReactDom.render(React.createElement(BarChart$Bluefishv0.make, {}), makeContainer("Bar Chart"));
 
 ReactDom.render(React.createElement(TextLayout$Bluefishv0.make, {}), makeContainer("Text Layout"));
 
