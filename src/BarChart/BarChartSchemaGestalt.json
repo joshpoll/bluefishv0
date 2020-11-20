@@ -1,0 +1,23 @@
+{
+  "bar chart": {
+    "type": "O -> R",
+    "fields": {
+      "letter": {
+        "type": "string",
+        "encoding": "18px sans-serif"
+      },
+      "price": {
+        "type": "number",
+        "encoding": "box height"
+      }
+    },
+    "row encoding": [
+      "price /|/ letter"
+    ],
+    "column encoding": [
+      "=_="
+    ]
+  },
+  "TODO1": "no axes here! they would have to come from a preprocessing of the semantic content of the visualization",
+  "TODO2": "notice also that we don't specify specific values here!! Those are left for the layout level."
+}

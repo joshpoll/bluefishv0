@@ -1,0 +1,6 @@
+{
+  "bar chart": {
+    "letter": "string",
+    "price": "number"
+  }
+}
